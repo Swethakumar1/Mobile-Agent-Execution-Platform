@@ -1,0 +1,42 @@
+import Mobile.*;
+/**
+* TestAgent1 is a test mobile agent that is implemented in order to remove the
+messages from the queue.This tries to respond or communiciate with the other agent *
+* @author Swetha
+* @version %I% %G%
+* @since 1.0
+*/
+public class TestAgent1 extends Agent {
+public int hopCount = 0;
+public String[] destination = null;
+/**
+* The consturctor receives a String array as an argument from
+* Mobile.Inject.
+*
+* @param args arguments passed from Mobile.Inject to this constructor
+*/
+public TestAgent1( String[] args ) {
+destination = args;
+System.out.println("argument length: "+args.length);
+}
+/**
+* init( ) is the default method called upon an agent inject.
+*/
+public void init( ) {
+hopCount++;
+hop( destination[0], "receiveMessage");
+}
+/**
+* receiveMessage( ) is invoked upon an agent migration to destination[0] after
+* init( ) calls hop( ).
+*
+* @param args arguments passed from init( ).
+*/
+public void receiveMessage( ) {
+if(hopCount < destination.length){
+int prevhop = hopCount;
+hopCount++;
+hop( destination[prevhop], "receiveMessage");
+}
+}
+}
