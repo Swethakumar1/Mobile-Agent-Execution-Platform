@@ -1,0 +1,47 @@
+import Mobile.*;
+/**
+* TestAgent is a one of the test mobile agent that is implemented in order to add the
+message to the queue and tries to communication with the other agent*
+* @author Swetha
+* @version %I% %G%
+* @since 1.0
+*/
+public class TestAgent extends Agent {
+public int hopCount = 0;
+public String[] destination = null;
+/**
+* The consturctor receives a String array as an argument from
+* Mobile.Inject.
+*
+* @param args arguments passed from Mobile.Inject to this constructor
+*/
+public TestAgent( String[] args ) {
+destination = args;
+System.out.println("argument length: "+args.length);
+}
+/**
+* init( ) is the default method called upon an agent inject.
+*/
+public void init( ) {
+String[] args = new String[2];
+args[0] = destination[hopCount] + ": Hello!";
+args[1] = destination[hopCount] + ": How are you doing?? ";
+hopCount++;
+hop( destination[0], "sendMessage", args );
+}
+/**
+* sendMessage( ) is invoked upon an agent migration to destination[1] after
+* init( ) calls hop( ).
+*
+* @param args arguments passed from step( ).
+*/
+public void sendMessage(String[] args ) {
+if(hopCount < destination.length){
+int prevhop = hopCount;
+args[0] = destination[prevhop] + ": Oi!!! ";
+args[1] = destination[prevhop] + ": I am doing good.";
+hopCount++;
+hop( destination[prevhop], "sendMessage", args);
+}
+}
+}
